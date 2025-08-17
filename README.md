@@ -49,6 +49,7 @@ python terracred_demo.py
 ```
 Regression Evaluation: {'rmse': 1234.56, 'mae': 987.65, 'r2': 0.85}
 Classification Evaluation: {'accuracy': 0.89, 'roc_auc': 0.92}
+```
 
 Generated SHAP visualizations:
 📊 Bar plots (Feature Importance)
@@ -60,7 +61,7 @@ Generated SHAP visualizations:
 ⚡ Feature Importance plots
 <img width="1280" height="1280" alt="permutation_importance_top25" src="https://github.com/user-attachments/assets/01821316-f587-4062-9102-c1cca1558219" />
 
-```
+
 
 ## 📊 Model Architecture
 
