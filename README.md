@@ -95,9 +95,7 @@ We apply **SHAP** post-training to:
 - Highlight **top drivers** (e.g., NDVI health ↑, price volatility ↓).  
 
 Example SHAP outputs:
-- **Summary plot** → global importance  
-- **Force plot** → single farmer explanation  
-- **Bar plot** → top N features for bankers  
+<img width="1280" height="1280" alt="permutation_importance_top25" src="https://github.com/user-attachments/assets/5e26f41f-e160-4620-8ae5-cae0df76b3e3" />
 
----
+
 
