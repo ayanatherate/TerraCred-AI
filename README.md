@@ -1,7 +1,5 @@
 # TerraCred™: AI-Powered Credit Scoring for Smallholder Farmers
 
-![TerraCred Logo](https://via.placeholder.com/600x200/2E7D32/FFFFFF?text=TerraCred%E2%84%A2)
-
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![LightGBM](https://img.shields.io/badge/LightGBM-Enabled-brightgreen.svg)](https://lightgbm.readthedocs.io/)
 [![SHAP](https://img.shields.io/badge/SHAP-Explainable%20AI-orange.svg)](https://shap.readthedocs.io/)
@@ -37,15 +35,6 @@ pip install lightgbm  # Optional but recommended
 pip install shap      # For explainability
 ```
 
-### Run the Complete Pipeline
-
-```bash
-git clone https://github.com/yourusername/terracred
-cd terracred
-python terracred_demo.py
-```
-
-### Expected Output
 ```
 Regression Evaluation: {'rmse': 1234.56, 'mae': 987.65, 'r2': 0.85}
 Classification Evaluation: {'accuracy': 0.89, 'roc_auc': 0.92}
