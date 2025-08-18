@@ -1,7 +1,17 @@
 from fastapi import FastAPI
 import pandas as pd
+import joblib
+import shap
+import matplotlib
+matplotlib.use("Agg")  # ✅ for server environments (no GUI)
+import matplotlib.pyplot as plt
+import io, base64
 
 app = FastAPI()
+
+# ✅ Load model at startup
+MODEL_PATH = os.path.join("model", "terracred_classifier.joblib")
+model = joblib.load(MODEL_PATH)
 
 def return_farmer_outputs(phone_number):
     phone_number = int(phone_number)
@@ -11,16 +21,48 @@ def return_farmer_outputs(phone_number):
     df['Farmer_Phone_Number'] = [int(str(i)[2:]) for i in df['Farmer_Phone_Number'].values]
 
     try:
+        # Extract farmer row
         df_col = df.loc[df['Farmer_Phone_Number'] == int(phone_number)]
+        if df_col.empty:
+            return {
+                "phone_number": phone_number,
+                "status": "not_found",
+                "credit_limit": None,
+                "loan_approval": None,
+                "shap_waterfall_plot": None
+            }
+
         cred_lim = int(df_col['credit_limit'].values[0])
         loan_approved = int(df_col['loan_approval'].values[0])
 
+        # Drop identifier + target to get features for prediction
+        feature_cols = [c for c in df.columns if c not in ["Farmer_Phone_Number", "loan_approval", "credit_limit"]]
+        farmer_features = df_col[feature_cols]
+
+        # ✅ Prediction (probability or class)
+        prediction = model.predict(farmer_features)[0]
+
+        # ✅ SHAP explainer
+        explainer = shap.Explainer(model, df[feature_cols])
+        shap_values = explainer(farmer_features)
+
+        # ✅ Generate SHAP waterfall plot
+        plt.figure()
+        shap.plots.waterfall(shap_values[0], show=False)
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png", bbox_inches="tight")
+        plt.close()
+        buf.seek(0)
+        img_base64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+
+        # ✅ Build response JSON
         if loan_approved == 1:
             return {
                 "phone_number": phone_number,
                 "status": "approved",
                 "credit_limit": cred_lim,
                 "loan_approval": 1,
+                "prediction": int(prediction),
                 "top_positive_factors": [
                     "High NDVI (healthy crops)",
                     "Excellent repayment history",
@@ -30,7 +72,8 @@ def return_farmer_outputs(phone_number):
                 "risk_factors": [
                     "High price volatility",
                     "Distance to market"
-                ]
+                ],
+                "shap_waterfall_plot": img_base64
             }
         else:
             return {
@@ -38,6 +81,7 @@ def return_farmer_outputs(phone_number):
                 "status": "rejected",
                 "credit_limit": cred_lim,
                 "loan_approval": 0,
+                "prediction": int(prediction),
                 "limiting_factors": [
                     "Past loan default",
                     "Poor soil nutrients",
@@ -48,14 +92,18 @@ def return_farmer_outputs(phone_number):
                     "Soil testing and fertilization",
                     "Crop insurance enrollment",
                     "Join local FPO"
-                ]
+                ],
+                "shap_waterfall_plot": img_base64
             }
-    except:
+
+    except Exception as e:
         return {
             "phone_number": phone_number,
-            "status": "not_found",
+            "status": "error",
+            "error_message": str(e),
             "credit_limit": None,
-            "loan_approval": None
+            "loan_approval": None,
+            "shap_waterfall_plot": None
         }
 
 
