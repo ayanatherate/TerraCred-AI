@@ -5,3 +5,4 @@ python-multipart
 joblib
 shap
 matplotlib
+lightgbm
