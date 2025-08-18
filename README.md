@@ -25,20 +25,6 @@ TerraCred™ revolutionizes agricultural credit assessment by:
 - 🌍 **Multi-language support** via SMS, WhatsApp, or chatbot
 - ⚡ **Dual prediction models**: Credit limit estimation + loan approval classification
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-```bash
-pip install pandas numpy scikit-learn matplotlib joblib
-pip install lightgbm  # Optional but recommended
-pip install shap      # For explainability
-```
-
-```
-Regression Evaluation: {'rmse': 1234.56, 'mae': 987.65, 'r2': 0.85}
-Classification Evaluation: {'accuracy': 0.89, 'roc_auc': 0.92}
-```
 
 Generated SHAP visualizations:
 📊 Bar plots (Feature Importance)
