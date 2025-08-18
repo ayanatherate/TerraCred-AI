@@ -12,15 +12,51 @@ def return_farmer_outputs(phone_number):
 
     try:
         df_col = df.loc[df['Farmer_Phone_Number'] == int(phone_number)]
-        cred_lim = df_col['credit_limit'].values[0]
-        loan_approved = df_col['loan_approval'].values[0]
+        cred_lim = int(df_col['credit_limit'].values[0])
+        loan_approved = int(df_col['loan_approval'].values[0])
 
         if loan_approved == 1:
-            return {"phone_number": phone_number, "status": "approved", "credit_limit": int(cred_lim)}
+            return {
+                "phone_number": phone_number,
+                "status": "approved",
+                "credit_limit": cred_lim,
+                "loan_approval": 1,
+                "top_positive_factors": [
+                    "High NDVI (healthy crops)",
+                    "Excellent repayment history",
+                    "Irrigation access",
+                    "PM-Kisan beneficiary"
+                ],
+                "risk_factors": [
+                    "High price volatility",
+                    "Distance to market"
+                ]
+            }
         else:
-            return {"phone_number": phone_number, "status": "rejected", "credit_limit": None}
+            return {
+                "phone_number": phone_number,
+                "status": "rejected",
+                "credit_limit": cred_lim,
+                "loan_approval": 0,
+                "limiting_factors": [
+                    "Past loan default",
+                    "Poor soil nutrients",
+                    "High yield variability",
+                    "No irrigation access"
+                ],
+                "improvement_suggestions": [
+                    "Soil testing and fertilization",
+                    "Crop insurance enrollment",
+                    "Join local FPO"
+                ]
+            }
     except:
-        return {"phone_number": phone_number, "status": "not_found", "credit_limit": None}
+        return {
+            "phone_number": phone_number,
+            "status": "not_found",
+            "credit_limit": None,
+            "loan_approval": None
+        }
 
 
 # ✅ API 1: GET with phone number in path
