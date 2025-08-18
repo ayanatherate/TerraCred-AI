@@ -5,10 +5,10 @@ import pandas as pd
 app = FastAPI()
 
 def return_farmer_outputs(phone_number):
-    phone_number=int(phone_number)
+    phone_number = int(phone_number)
     print(phone_number)
     df = pd.read_csv(r"https://raw.githubusercontent.com/ayanatherate/TerraCred-AI/refs/heads/main/data/Data_with_phone_numbers.csv")
-    df['Farmer_Phone_Number']=[int(str(i)[2:]) for i in df['Farmer_Phone_Number'].values]
+    df['Farmer_Phone_Number'] = [int(str(i)[2:]) for i in df['Farmer_Phone_Number'].values]
     print(df['Farmer_Phone_Number'].values[0])
     
     try:
@@ -90,6 +90,4 @@ async def check_loan_status(phone_number: str = Form(...)):
 async def get_farmer_loan_status(phone_number: str):
     return {"message": return_farmer_outputs(phone_number)}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# Removed uvicorn.run - Railway handles this via Procfile
