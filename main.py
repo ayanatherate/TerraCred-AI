@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import io, base64
 import os
 import lightgbm
+import numpy as np
 
 app = FastAPI()
 
