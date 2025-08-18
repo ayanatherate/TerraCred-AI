@@ -6,6 +6,7 @@ import matplotlib
 matplotlib.use("Agg")  # ✅ for server environments (no GUI)
 import matplotlib.pyplot as plt
 import io, base64
+import os
 
 app = FastAPI()
 
