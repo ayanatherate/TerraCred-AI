@@ -225,4 +225,4 @@ pip install -r requirements.txt
 
 **Built with ❤️ for India's farming community**
 
-*Empowering 600+ million farmers with AI-driven financial inclusion*
+*Empowering 140+ million farmers with AI-driven financial inclusion*
