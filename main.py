@@ -7,7 +7,7 @@ matplotlib.use("Agg")  # ✅ for server environments (no GUI)
 import matplotlib.pyplot as plt
 import io, base64
 import os
-
+import lightgbm
 app = FastAPI()
 
 # ✅ Load model at startup
